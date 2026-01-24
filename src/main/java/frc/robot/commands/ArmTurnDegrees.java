@@ -12,7 +12,7 @@ public class ArmTurnDegrees extends Command {
   private final double m_angleDeg;
 
   /**
-   * Creates a new ArmTurnDegrees. This command will turn the arm to the desired angle.
+   * Creates a new ArmTurnDegrees. This command will turn the arm to the desired angle (in degrees).
    *
    * @param angleDeg The angle the arm will turn to in degrees
    * @param arm The arm subsystem on which this command will run
@@ -25,9 +25,7 @@ public class ArmTurnDegrees extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_arm.setAngle(0);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -42,7 +40,6 @@ public class ArmTurnDegrees extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // Compare distance travelled from start to desired distance
     return true;
   }
 }
