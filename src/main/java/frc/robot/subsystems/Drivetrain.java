@@ -13,11 +13,14 @@ import edu.wpi.first.wpilibj.xrp.XRPMotor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
-  private static final double kGearRatio =
-      (30.0 / 14.0) * (28.0 / 16.0) * (36.0 / 9.0) * (26.0 / 8.0); // 48.75:1
+  private static final double kGearRatio = 48.75;
   private static final double kCountsPerMotorShaftRev = 12.0;
   private static final double kCountsPerRevolution = kCountsPerMotorShaftRev * kGearRatio; // 585.0
   private static final double kWheelDiameterInch = 2.3622; // 60 mm
+
+  // PID values
+  private double kP = 0.05;
+  private double targetAngle = 0.0;
 
   // The XRP has the left and right motors set to
   // channels 0 and 1 respectively
@@ -53,10 +56,23 @@ public class Drivetrain extends SubsystemBase {
     m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
     m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
     resetEncoders();
+
+    // Reset the gyro and target angle
+    resetGyro();
+    setTargetAngle(0.0);
   }
 
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
-    m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
+    // Check if driver is turning or not
+    if (Math.abs(zaxisRotate) < 0.05) {
+      // Driver is not turning, drive straight with correction
+      double correction = getHeadingCorrection();
+      m_diffDrive.arcadeDrive(xaxisSpeed, correction);
+    } else {
+      // Driver is turning, update target angle
+      setTargetAngle(getGyroAngleZ());
+      m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
+    }
   }
 
   public void resetEncoders() {
@@ -109,6 +125,21 @@ public class Drivetrain extends SubsystemBase {
    */
   public double getAccelZ() {
     return m_accelerometer.getZ();
+  }
+
+  /** Sets the target angle in degrees. */
+  public void setTargetAngle(double angleDeg) {
+    targetAngle = angleDeg;
+  }
+
+  /**
+   * Calculates heading correction using PID values
+   * 
+   * @return The heading correction of the XRP along the Z-axis
+   */
+  public double getHeadingCorrection() {
+    double error = targetAngle - getGyroAngleZ();
+    return kP * error;
   }
 
   /**
