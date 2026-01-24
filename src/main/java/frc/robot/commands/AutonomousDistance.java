@@ -17,12 +17,12 @@ public class AutonomousDistance extends SequentialCommandGroup {
    */
   public AutonomousDistance(Drivetrain drivetrain, Arm arm) {
     addCommands(
-        /*new DriveDistance(-1, 15, drivetrain),
+        new DriveDistance(-1, 15, drivetrain),
         new TurnDegrees(1, 90, drivetrain),
         new DriveDistance(1, 5, drivetrain),
         new TurnDegrees(1, 90, drivetrain),
         new DriveDistance(1, 5, drivetrain),
-        */
+        
         new ArmTurnDegrees(0, arm),
         new WaitTime(1),
         new ArmTurnDegrees(90, arm));
