@@ -40,6 +40,6 @@ public class ArmTurnDegrees extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return Math.abs(m_arm.getAngle() - m_angleDeg) < 2.0;
   }
 }

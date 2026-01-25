@@ -29,4 +29,13 @@ public class Arm extends SubsystemBase {
   public void setAngle(double angleDeg) {
     m_armServo.setAngle(angleDeg);
   }
+
+  /**
+   * Get the current angle of the arm (0 - 180 degrees).
+   *
+   * @return Current arm angle in degrees
+   */
+  public double getAngle() {
+    return m_armServo.getAngle();
+  }
 }
