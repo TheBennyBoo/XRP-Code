@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -20,7 +21,13 @@ public class Drivetrain extends SubsystemBase {
 
   // PID values
   private double kP = 0.05;
+  private double kD = 0.0;
   private double targetAngle = 0.0;
+  private double error = 0.0;
+  private double previousError = 0.0;
+  private double correction = 0.0;
+  private double p = 0.0;
+  private double d = 0.0;
 
   // The XRP has the left and right motors set to
   // channels 0 and 1 respectively
@@ -66,7 +73,7 @@ public class Drivetrain extends SubsystemBase {
     // Check if driver is turning or not
     if (Math.abs(zaxisRotate) < 0.05) {
       // Driver is not turning, drive straight with correction
-      double correction = getHeadingCorrection();
+      correction = getHeadingCorrection();
       m_diffDrive.arcadeDrive(xaxisSpeed, correction);
     } else {
       // Driver is turning, update target angle
@@ -138,8 +145,11 @@ public class Drivetrain extends SubsystemBase {
    * @return The heading correction of the XRP along the Z-axis
    */
   public double getHeadingCorrection() {
-    double error = targetAngle - getGyroAngleZ();
-    return kP * error;
+    error = targetAngle - getGyroAngleZ();
+    p = kP * error;
+    d = kD * (error - previousError);
+    previousError = error;
+    return p + d;
   }
 
   /**
@@ -177,5 +187,7 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    kP = SmartDashboard.getNumber("kP", 0.05);
+    kD = SmartDashboard.getNumber("kD", 0.01);
   }
 }

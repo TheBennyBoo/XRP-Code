@@ -40,10 +40,11 @@ public class RobotContainer {
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /** The container for the robot. Contains subsystems, IO devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    setupPIDTuner();
   }
 
   /**
@@ -74,8 +75,13 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> m_arm.setAngle(0.0), m_arm));
 
     // Setup SmartDashboard options
-    m_chooser.setDefaultOption("Auto Routine Distance", new Autonomous(m_drivetrain, m_arm, m_depthSensor));
+    m_chooser.setDefaultOption("Auto Routine", new Autonomous(m_drivetrain, m_arm, m_depthSensor));
     SmartDashboard.putData(m_chooser);
+  }
+
+  private void setupPIDTuner() {
+    SmartDashboard.putNumber("kP", 0.05);
+    SmartDashboard.putNumber("kD", 0.01);
   }
 
   /**
