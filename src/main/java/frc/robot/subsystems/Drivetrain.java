@@ -82,7 +82,7 @@ public class Drivetrain extends SubsystemBase {
       setTargetAngle(getGyroAngleZ());
 
       // Invert rotation when going backwards
-      if (xaxisSpeed < 0.0) {
+      if (xaxisSpeed > 0.0) {
         m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
       } else {
         m_diffDrive.arcadeDrive(xaxisSpeed, -zaxisRotate);
@@ -144,7 +144,12 @@ public class Drivetrain extends SubsystemBase {
 
   /** Sets the target angle in degrees. */
   public void setTargetAngle(double angleDeg) {
-    targetAngle = angleDeg;
+    // Normalize target angle to [-180, 180) to avoid large wrap-around errors
+    double a = ((angleDeg % 360.0) + 360.0) % 360.0;
+    if (a >= 180.0) {
+      a -= 360.0;
+    }
+    targetAngle = a;
   }
 
   /**
@@ -153,11 +158,28 @@ public class Drivetrain extends SubsystemBase {
    * @return The heading correction of the XRP along the Z-axis
    */
   public double getHeadingCorrection() {
-    error = targetAngle - getGyroAngleZ();
+    double current = getGyroAngleZ();
+    // Compute minimal signed angular error in [-180, 180]
+    error = angleDifferenceDeg(targetAngle, current);
     p = kP * error;
     d = kD * (error - previousError);
     previousError = error;
     return p + d;
+  }
+
+  /**
+   * Compute the smallest signed angle difference from current to target in degrees.
+   * Result is in [-180, 180].
+   */
+  private double angleDifferenceDeg(double target, double current) {
+    double diff = target - current;
+    while (diff > 180.0) {
+      diff -= 360.0;
+    }
+    while (diff < -180.0) {
+      diff += 360.0;
+    }
+    return diff;
   }
 
   /**
