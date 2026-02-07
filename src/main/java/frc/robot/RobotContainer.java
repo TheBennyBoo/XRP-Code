@@ -82,6 +82,7 @@ public class RobotContainer {
   private void setupPIDTuner() {
     SmartDashboard.putNumber("kP", 0.05);
     SmartDashboard.putNumber("kD", 0.01);
+    SmartDashboard.putNumber("Deadband", 0.05);
   }
 
   /**

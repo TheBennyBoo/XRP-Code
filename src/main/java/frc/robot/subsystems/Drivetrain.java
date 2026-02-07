@@ -22,6 +22,7 @@ public class Drivetrain extends SubsystemBase {
   // PID values
   private double kP = 0.05;
   private double kD = 0.0;
+  private double deadband = 0.05;
   private double targetAngle = 0.0;
   private double error = 0.0;
   private double previousError = 0.0;
@@ -71,7 +72,7 @@ public class Drivetrain extends SubsystemBase {
 
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
     // Check if driver is turning or not
-    if (Math.abs(zaxisRotate) < 0.05) {
+    if (Math.abs(zaxisRotate) < deadband) {
       // Driver is not turning, drive straight with correction
       correction = getHeadingCorrection();
       m_diffDrive.arcadeDrive(xaxisSpeed, correction);
@@ -189,5 +190,6 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
     kP = SmartDashboard.getNumber("kP", 0.05);
     kD = SmartDashboard.getNumber("kD", 0.01);
+    deadband = SmartDashboard.getNumber("Deadband", 0.05);
   }
 }
