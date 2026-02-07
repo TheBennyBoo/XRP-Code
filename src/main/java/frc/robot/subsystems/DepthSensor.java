@@ -18,7 +18,7 @@ public class DepthSensor extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // Publish the current distance for debugging and dashboards
+    // Display the current distance on SmartDashboard
     SmartDashboard.putNumber("Distance (in)", getDistanceInches());
   }
 

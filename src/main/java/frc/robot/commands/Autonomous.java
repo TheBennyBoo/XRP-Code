@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.DepthSensor;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class Autonomous extends SequentialCommandGroup {
@@ -14,8 +15,9 @@ public class Autonomous extends SequentialCommandGroup {
    *
    * @param drivetrain The drivetrain subsystem on which this command will run
    * @param arm The arm subsystem on which this command will run
+   * @param depthSensor The depth sensor subsystem on which this command will run
    */
-  public Autonomous(Drivetrain drivetrain, Arm arm) {
+  public Autonomous(Drivetrain drivetrain, Arm arm, DepthSensor depthSensor) {
     // Test all autonomous commands
     addCommands(
         new ArmTurnDegrees(0.0, arm),
@@ -31,5 +33,6 @@ public class Autonomous extends SequentialCommandGroup {
         new DriveDistance(1.0, 10.0, drivetrain),
         new TurnDegrees(1.0, 180.0, drivetrain),
         new WaitDelay(1.0));
+        // new ContinuousDrive(drivetrain)
   }
 }
