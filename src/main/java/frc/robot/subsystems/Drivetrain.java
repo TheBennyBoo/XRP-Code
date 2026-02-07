@@ -57,7 +57,7 @@ public class Drivetrain extends SubsystemBase {
 
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward
-    invertMotors(false, true);
+    m_rightMotor.setInverted(true);
 
     // Use inches as unit for encoder distances
     m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
@@ -70,11 +70,6 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
-    if (xaxisSpeed < 0) {
-      invertMotors(false, true);
-    } else if (xaxisSpeed > 0) {
-      invertMotors(true, false);
-    }
     if (xaxisSpeed == 0.0 && zaxisRotate == 0.0) {
       // Robot is not moving, reset target angle
       setTargetAngle(getGyroAngleZ());
@@ -85,13 +80,14 @@ public class Drivetrain extends SubsystemBase {
     } else {
       // Driver is turning, update target angle
       setTargetAngle(getGyroAngleZ());
-      m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
-    }
-  }
 
-  public void invertMotors(boolean leftMotor, boolean rightMotor) {
-    m_leftMotor.setInverted(leftMotor);
-    m_rightMotor.setInverted(rightMotor);
+      // Invert rotation when going backwards
+      if (xaxisSpeed < 0.0) {
+        m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
+      } else {
+        m_diffDrive.arcadeDrive(xaxisSpeed, -zaxisRotate);
+      }
+    }
   }
 
   public void resetEncoders() {
