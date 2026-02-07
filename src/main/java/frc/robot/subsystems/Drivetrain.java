@@ -72,6 +72,10 @@ public class Drivetrain extends SubsystemBase {
 
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
     // Check if driver is turning or not
+    if (xaxisSpeed == 0.0 && zaxisRotate == 0.0) {
+      // Robot is not moving, reset target angle
+      setTargetAngle(getGyroAngleZ());
+    }
     if (Math.abs(zaxisRotate) < deadband) {
       // Driver is not turning, drive straight with correction
       correction = getHeadingCorrection();
