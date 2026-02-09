@@ -34,7 +34,6 @@ public class TurnDegrees extends Command {
     m_drive.arcadeDrive(0, 0);
     m_drive.resetEncoders();
     m_drive.resetGyro();
-    m_drive.setTargetAngle(m_drive.getGyroAngleZ());
   }
 
   // Called every time the scheduler runs while the command is scheduled.

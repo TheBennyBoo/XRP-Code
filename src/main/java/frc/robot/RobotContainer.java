@@ -44,7 +44,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    setupPIDTuner();
   }
 
   /**
@@ -77,12 +76,6 @@ public class RobotContainer {
     // Setup SmartDashboard options
     m_chooser.setDefaultOption("Auto Routine", new Autonomous(m_drivetrain, m_arm, m_depthSensor));
     SmartDashboard.putData(m_chooser);
-  }
-
-  private void setupPIDTuner() {
-    SmartDashboard.putNumber("kP", 0.05);
-    SmartDashboard.putNumber("kD", 0.01);
-    SmartDashboard.putNumber("Deadband", 0.05);
   }
 
   /**
