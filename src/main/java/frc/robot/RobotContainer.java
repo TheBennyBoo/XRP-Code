@@ -79,13 +79,13 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> m_arm.setAngleTwo(120.0), m_arm))
         .onFalse(new InstantCommand(() -> m_arm.setAngleTwo(120.0), m_arm));
 
-        JoystickButton joystickEButton = new JoystickButton(m_controller, 5);
+        JoystickButton joystickEButton = new JoystickButton(m_controller, 4);
     joystickEButton
         .onTrue(new InstantCommand(() -> m_arm.setAngleTwo(95.0), m_arm))
         .onFalse(new InstantCommand(() -> m_arm.setAngleTwo(95.0), m_arm));
 
 
-    JoystickButton joystickDButton = new JoystickButton(m_controller, 6);
+    JoystickButton joystickDButton = new JoystickButton(m_controller, 5);
     joystickDButton
         .onTrue(new InstantCommand(() -> m_arm.setAngleTwo(70.0), m_arm))
         .onFalse(new InstantCommand(() -> m_arm.setAngleTwo(70.0), m_arm));
