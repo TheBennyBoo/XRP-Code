@@ -64,21 +64,30 @@ public class RobotContainer {
 
     JoystickButton joystickAButton = new JoystickButton(m_controller, 1);
     joystickAButton
-        .onTrue(new InstantCommand(() -> m_arm.setAngle(45.0), m_arm))
-        .onFalse(new InstantCommand(() -> m_arm.setAngle(0.0), m_arm));
+        .onTrue(new InstantCommand(() -> m_arm.setUpperAngle(45.0), m_arm))
+        .onFalse(new InstantCommand(() -> m_arm.setUpperAngle(0.0), m_arm));
 
     JoystickButton joystickBButton = new JoystickButton(m_controller, 2);
     joystickBButton
-        .onTrue(new InstantCommand(() -> m_arm.setAngle(90.0), m_arm))
-        .onFalse(new InstantCommand(() -> m_arm.setAngle(0.0), m_arm));
+        .onTrue(new InstantCommand(() -> m_arm.setUpperAngle(90.0), m_arm))
+        .onFalse(new InstantCommand(() -> m_arm.setUpperAngle(0.0), m_arm));
 
+    JoystickButton joystickYButton = new JoystickButton(m_controller, 3);
+    joystickYButton
+        .onTrue(new InstantCommand(() -> m_arm.setLowerAngle(90.0), m_arm))
+        .onFalse(new InstantCommand(() -> m_arm.setLowerAngle(45.0), m_arm));
+
+    JoystickButton joystickXButton = new JoystickButton(m_controller, 4);
+    joystickXButton
+        .onTrue(new InstantCommand(() -> m_arm.setLowerAngle(120.0), m_arm))
+        .onFalse(new InstantCommand(() -> m_arm.setLowerAngle(45.0), m_arm));
     // Setup SmartDashboard options
     m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain, m_arm));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
     SmartDashboard.putData(m_chooser);
   }
 
-  /**
+  /**z
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
