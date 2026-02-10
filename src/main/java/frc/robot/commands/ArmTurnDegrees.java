@@ -27,12 +27,15 @@ public class ArmTurnDegrees extends Command {
   @Override
   public void initialize() {
     m_arm.setAngle(0);
+    m_arm.setAngleTwo(90);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_arm.setAngle(m_angleDeg);
+    m_arm.setAngleTwo(m_angleDeg);
+
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +46,6 @@ public class ArmTurnDegrees extends Command {
   @Override
   public boolean isFinished() {
     // Compare distance travelled from start to desired distance
-    return true;
+    return false;
   }
 }
