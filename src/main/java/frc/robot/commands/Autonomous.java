@@ -20,11 +20,11 @@ public class Autonomous extends SequentialCommandGroup {
   public Autonomous(Drivetrain drivetrain, Arm arm, DepthSensor depthSensor) {
     // Test all autonomous commands
     addCommands(
-        new ArmTurnDegrees(0.0, arm),
+        new ArmLowerSetDegrees(0.0, arm),
         new WaitDelay(1.0),
-        new ArmTurnDegrees(90.0, arm),
+        new ArmLowerSetDegrees(90.0, arm),
         new WaitDelay(1.0),
-        new ArmTurnDegrees(180.0, arm),
+        new ArmLowerSetDegrees(180.0, arm),
         new WaitDelay(3.0),
         new DriveDistance(1.0, 10.0, drivetrain),
         new WaitDelay(1.0),

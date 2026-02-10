@@ -7,17 +7,17 @@ package frc.robot.commands;
 import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class ArmTurnDegrees extends Command {
+public class ArmUpperSetDegrees extends Command {
   private final Arm m_arm;
   private final double m_angleDeg;
 
   /**
-   * Creates a new ArmTurnDegrees. This command will turn the arm to the desired angle (in degrees).
+   * Creates a new ArmUpperSetDegrees. This command will set the upper arm to the desired angle (in degrees).
    *
    * @param angleDeg The angle the arm will turn to in degrees
    * @param arm The arm subsystem on which this command will run
    */
-  public ArmTurnDegrees(double angleDeg, Arm arm) {
+  public ArmUpperSetDegrees(double angleDeg, Arm arm) {
     m_angleDeg = angleDeg;
     m_arm = arm;
     addRequirements(arm);
@@ -30,7 +30,7 @@ public class ArmTurnDegrees extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_arm.setAngle(m_angleDeg);
+    m_arm.setAngleUpper(m_angleDeg);
   }
 
   // Called once the command ends or is interrupted.
@@ -40,6 +40,6 @@ public class ArmTurnDegrees extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_arm.getAngle() - m_angleDeg) < 2.0;
+    return Math.abs(m_arm.getAngleUpper() - m_angleDeg) < 2.0;
   }
 }

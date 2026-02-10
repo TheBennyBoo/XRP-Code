@@ -5,8 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.Autonomous;
 import frc.robot.subsystems.Arm;
@@ -14,12 +14,9 @@ import frc.robot.subsystems.DepthSensor;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.xrp.XRPOnBoardIO;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,13 +26,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drivetrain m_drivetrain = new Drivetrain();
-  private final XRPOnBoardIO m_onboardIO = new XRPOnBoardIO();
   private final Arm m_arm = new Arm();
+  private final Drivetrain m_drivetrain = new Drivetrain();
   private final DepthSensor m_depthSensor = new DepthSensor();
 
-  // Assumes a gamepad plugged into channel 0
-  private final Joystick m_controller = new Joystick(0);
+  // Assumes an Xbox controller plugged into channel 0
+  private final XboxController m_controller = new XboxController(0);
+
+  // Define controller buttons
+  private final JoystickButton buttonLeftBumper = new JoystickButton(m_controller, Button.kLeftBumper.value);
+  private final JoystickButton buttonRightBumper = new JoystickButton(m_controller, Button.kRightBumper.value);
 
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -56,22 +56,13 @@ public class RobotContainer {
     // Default command is arcade drive. This will run unless another command
     // is scheduled over it.
     m_drivetrain.setDefaultCommand(getArcadeDriveCommand());
+    m_arm.setDefaultCommand(getArmTurnCommand());
 
-    // Example of how to use the onboard IO
-    Trigger userButton = new Trigger(m_onboardIO::getUserButtonPressed);
-    userButton
-        .onTrue(new PrintCommand("USER Button Pressed"))
-        .onFalse(new PrintCommand("USER Button Released"));
+    buttonLeftBumper
+        .whileTrue(new RunCommand(() -> m_arm.turnSpeedUpper(1.0, true), m_arm));
 
-    JoystickButton joystickAButton = new JoystickButton(m_controller, 1);
-    joystickAButton
-        .onTrue(new InstantCommand(() -> m_arm.setAngle(45.0), m_arm))
-        .onFalse(new InstantCommand(() -> m_arm.setAngle(0.0), m_arm));
-
-    JoystickButton joystickBButton = new JoystickButton(m_controller, 2);
-    joystickBButton
-        .onTrue(new InstantCommand(() -> m_arm.setAngle(90.0), m_arm))
-        .onFalse(new InstantCommand(() -> m_arm.setAngle(0.0), m_arm));
+    buttonRightBumper
+        .whileTrue(new RunCommand(() -> m_arm.turnSpeedUpper(1.0, false), m_arm));
 
     // Setup SmartDashboard options
     m_chooser.setDefaultOption("Auto Routine", new Autonomous(m_drivetrain, m_arm, m_depthSensor));
@@ -94,6 +85,15 @@ public class RobotContainer {
    */
   public Command getArcadeDriveCommand() {
     return new ArcadeDrive(
-        m_drivetrain, () -> -m_controller.getRawAxis(1), () -> -m_controller.getRawAxis(2));
+        m_drivetrain, () -> -m_controller.getLeftY(), () -> -m_controller.getLeftX());
+  }
+
+  /**
+   * Use this to pass the arm turn command to the main {@link Robot} class.
+   *
+   * @return the command to run in teleop
+   */
+  public Command getArmTurnCommand() {
+    return new RunCommand(() -> m_arm.turnSpeedLower(-m_controller.getRightY(), -m_controller.getRightY() > 0), m_arm);
   }
 }
