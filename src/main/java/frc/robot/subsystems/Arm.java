@@ -10,7 +10,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Arm extends SubsystemBase {
   private XRPServo m_armLowerServo;
   private XRPServo m_armUpperServo;
-  
+
+  private double m_upperTarget = 0;
+  private double m_lowerTarget = 0;
+
+  private double m_upperSpeed = 10.0;
+  private double m_lowerSpeed = 2.0;
+
     /** Creates a new Arm. */
     public Arm() {
       // Device number 4 maps to the physical Servo 1 port on the XRP
@@ -21,6 +27,22 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
+      double currentUpper = m_armUpperServo.getAngle();
+      double currentLower = m_armLowerServo.getAngle();
+
+      if (Math.abs(currentUpper - m_upperTarget) > m_upperSpeed){
+        currentUpper += Math.copySign(m_upperSpeed, m_upperTarget - currentUpper);
+      }
+      else {
+        currentUpper = m_upperTarget;
+      }
+      if (Math.abs(currentLower - m_lowerTarget) > m_lowerSpeed){
+        currentLower += Math.copySign(m_lowerSpeed, m_lowerTarget - currentLower);
+      } else {
+        currentLower = m_lowerTarget;
+      }
+      m_armUpperServo.setAngle(currentUpper);
+      m_armLowerServo.setAngle(currentLower);
     }
   
     /**
@@ -29,9 +51,9 @@ public class Arm extends SubsystemBase {
      * @param angleDeg Desired arm angle in degrees
      */
     public void setUpperAngle(double angleDeg) {
-      m_armUpperServo.setAngle(angleDeg);
+      m_upperTarget = angleDeg;
     }
     public void setLowerAngle(double angleDeg) {
-      m_armLowerServo.setAngle(angleDeg);
+      m_lowerTarget = angleDeg;
     }
 }
