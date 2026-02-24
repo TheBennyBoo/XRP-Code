@@ -15,7 +15,7 @@ public class Arm extends SubsystemBase {
   private double m_lowerTarget = 0;
 
   private double m_upperSpeed = 10.0;
-  private double m_lowerSpeed = 2.0;
+  private double m_lowerSpeed = 4.0;
 
     /** Creates a new Arm. */
     public Arm() {
