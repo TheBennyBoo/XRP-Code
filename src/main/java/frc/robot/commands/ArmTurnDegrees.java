@@ -27,6 +27,7 @@ public class ArmTurnDegrees extends Command {
   @Override
   public void initialize() {
     m_arm.setUpperAngle(0);
+    m_arm.setLowerAngle(90);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
