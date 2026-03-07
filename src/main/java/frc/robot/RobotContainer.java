@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.Autonomous;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.DepthSensor;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,16 +24,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Arm m_arm = new Arm();
   private final Drivetrain m_drivetrain = new Drivetrain();
-  private final DepthSensor m_depthSensor = new DepthSensor();
 
   // Assumes an Xbox controller plugged into channel 0
   private final XboxController m_controller = new XboxController(0);
-
-  // Define controller buttons
-  private final JoystickButton buttonLeftBumper = new JoystickButton(m_controller, Button.kLeftBumper.value);
-  private final JoystickButton buttonRightBumper = new JoystickButton(m_controller, Button.kRightBumper.value);
 
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -56,16 +48,9 @@ public class RobotContainer {
     // Default command is arcade drive. This will run unless another command
     // is scheduled over it.
     m_drivetrain.setDefaultCommand(getArcadeDriveCommand());
-    m_arm.setDefaultCommand(getArmTurnCommand());
-
-    buttonLeftBumper
-        .whileTrue(new RunCommand(() -> m_arm.turnSpeedUpper(1.0, true), m_arm));
-
-    buttonRightBumper
-        .whileTrue(new RunCommand(() -> m_arm.turnSpeedUpper(1.0, false), m_arm));
 
     // Setup SmartDashboard options
-    m_chooser.setDefaultOption("Auto Routine", new Autonomous(m_drivetrain, m_arm, m_depthSensor));
+    m_chooser.setDefaultOption("Auto Routine", new Autonomous(m_drivetrain));
     SmartDashboard.putData(m_chooser);
   }
 
@@ -86,14 +71,5 @@ public class RobotContainer {
   public Command getArcadeDriveCommand() {
     return new ArcadeDrive(
         m_drivetrain, () -> -m_controller.getLeftY(), () -> -m_controller.getLeftX());
-  }
-
-  /**
-   * Use this to pass the arm turn command to the main {@link Robot} class.
-   *
-   * @return the command to run in teleop
-   */
-  public Command getArmTurnCommand() {
-    return new RunCommand(() -> m_arm.turnSpeedLower(-m_controller.getRightY(), -m_controller.getRightY() > 0), m_arm);
   }
 }
