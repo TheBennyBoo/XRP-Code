@@ -26,7 +26,8 @@ public class ArmTurnDegrees extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_arm.setAngle(0);
+    m_arm.setAngle(90);
+    m_arm.setAngle2(120);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,6 +35,7 @@ public class ArmTurnDegrees extends Command {
   public void execute() {
     m_arm.setAngle(m_angleDeg);
   }
+ 
 
   // Called once the command ends or is interrupted.
   @Override

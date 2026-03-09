@@ -8,12 +8,14 @@ import edu.wpi.first.wpilibj.xrp.XRPServo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
-  private final XRPServo m_armServo;
+  private final XRPServo m_armAimServo;
+  private final XRPServo m_armShootServo;
 
   /** Creates a new Arm. */
   public Arm() {
     // Device number 4 maps to the physical Servo 1 port on the XRP
-    m_armServo = new XRPServo(4);
+    m_armAimServo = new XRPServo(4);
+    m_armShootServo = new XRPServo(5);
   }
 
   @Override
@@ -27,6 +29,10 @@ public class Arm extends SubsystemBase {
    * @param angleDeg Desired arm angle in degrees
    */
   public void setAngle(double angleDeg) {
-    m_armServo.setAngle(angleDeg);
+    m_armAimServo.setAngle(angleDeg);
+  }
+  public void setAngle2(double angleDeg) {
+    m_armShootServo.setAngle(angleDeg);
   }
 }
+
