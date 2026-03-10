@@ -15,11 +15,11 @@ public class DriveSubsystem extends SubsystemBase {
   private final MotorController frMotorA;
   private final MotorController frMotorB;
 
-  private final MotorController blMotorA;
-  private final MotorController blMotorB;
+  // private final MotorController blMotorA;
+  // private final MotorController blMotorB;
 
-  private final MotorController brMotorA;
-  private final MotorController brMotorB;
+  // private final MotorController brMotorA;
+  // private final MotorController brMotorB;
 
   // Module geometry
   private static final double HALF_LENGTH = Constants.Drive.LENGTH / 2.0;
@@ -33,11 +33,11 @@ public class DriveSubsystem extends SubsystemBase {
     frMotorA = createMotor(Constants.Drive.FR_MOTOR_A);
     frMotorB = createMotor(Constants.Drive.FR_MOTOR_B);
 
-    blMotorA = createMotor(Constants.Drive.BL_MOTOR_A);
-    blMotorB = createMotor(Constants.Drive.BL_MOTOR_B);
+    // blMotorA = createMotor(Constants.Drive.BL_MOTOR_A);
+    // blMotorB = createMotor(Constants.Drive.BL_MOTOR_B);
 
-    brMotorA = createMotor(Constants.Drive.BR_MOTOR_A);
-    brMotorB = createMotor(Constants.Drive.BR_MOTOR_B);
+    // brMotorA = createMotor(Constants.Drive.BR_MOTOR_A);
+    // brMotorB = createMotor(Constants.Drive.BR_MOTOR_B);
   }
 
   @Override
@@ -52,29 +52,29 @@ public class DriveSubsystem extends SubsystemBase {
     rotationSpeed = MathUtil.applyDeadband(rotationSpeed, Constants.Drive.DEADBAND);
 
     // Calculate module vectors
-    ModuleState fl = calculateModule(xSpeed, ySpeed, rotationSpeed, -HALF_LENGTH, HALF_WIDTH);
-    ModuleState fr = calculateModule(xSpeed, ySpeed, rotationSpeed, HALF_LENGTH, HALF_WIDTH);
-    ModuleState bl = calculateModule(xSpeed, ySpeed, rotationSpeed, -HALF_LENGTH, -HALF_WIDTH);
-    ModuleState br = calculateModule(xSpeed, ySpeed, rotationSpeed, HALF_LENGTH, -HALF_WIDTH);
+    ModuleState flState = calculateModule(xSpeed, ySpeed, rotationSpeed, -HALF_LENGTH, HALF_WIDTH);
+    ModuleState frState = calculateModule(xSpeed, ySpeed, rotationSpeed, HALF_LENGTH, HALF_WIDTH);
+    ModuleState blState = calculateModule(xSpeed, ySpeed, rotationSpeed, -HALF_LENGTH, -HALF_WIDTH);
+    ModuleState brState = calculateModule(xSpeed, ySpeed, rotationSpeed, HALF_LENGTH, -HALF_WIDTH);
 
     // Normalize speeds
     double maxSpeed = Math.max(
-      Math.max(fl.speed, fr.speed),
-      Math.max(bl.speed, br.speed)
+      Math.max(flState.speed, frState.speed),
+      Math.max(blState.speed, brState.speed)
     );
 
     if (maxSpeed > 1.0) {
-      fl.speed /= maxSpeed;
-      fr.speed /= maxSpeed;
-      bl.speed /= maxSpeed;
-      br.speed /= maxSpeed;
+      flState.speed /= maxSpeed;
+      frState.speed /= maxSpeed;
+      blState.speed /= maxSpeed;
+      brState.speed /= maxSpeed;
     }
 
     // Apply to motors
-    setModule(flMotorA, flMotorB, fl);
-    setModule(frMotorA, frMotorB, fr);
-    setModule(blMotorA, blMotorB, bl);
-    setModule(brMotorA, brMotorB, br);
+    setModule(flMotorA, flMotorB, flState);
+    setModule(frMotorA, frMotorB, frState);
+    // setModule(blMotorA, blMotorB, blState);
+    // setModule(brMotorA, brMotorB, brState);
   }
 
   private ModuleState calculateModule(double xSpeed, double ySpeed, double rotationSpeed, double rotationX, double rotationY) {
@@ -114,11 +114,11 @@ public class DriveSubsystem extends SubsystemBase {
     frMotorA.stopMotor();
     frMotorB.stopMotor();
 
-    blMotorA.stopMotor();
-    blMotorB.stopMotor();
+    // blMotorA.stopMotor();
+    // blMotorB.stopMotor();
 
-    brMotorA.stopMotor();
-    brMotorB.stopMotor();
+    // brMotorA.stopMotor();
+    // brMotorB.stopMotor();
   }
 
   // Helper class
