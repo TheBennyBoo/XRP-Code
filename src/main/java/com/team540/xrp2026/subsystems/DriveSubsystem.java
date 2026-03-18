@@ -1,11 +1,10 @@
-package frc.robot.subsystems;
+package com.team540.xrp2026.subsystems;
 
-import frc.robot.Constants;
-
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.xrp.XRPMotor;
+import com.team540.xrp2026.Constants;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.xrp.XRPMotor;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
   // Motor controllers

@@ -1,7 +1,6 @@
-package frc.robot.commands;
+package com.team540.xrp2026.commands;
 
-import frc.robot.subsystems.DriveSubsystem;
-
+import com.team540.xrp2026.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.DoubleSupplier;
 

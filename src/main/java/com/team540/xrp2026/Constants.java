@@ -1,15 +1,12 @@
-package frc.robot;
+package com.team540.xrp2026;
 
 public class Constants {
   public static final class Drive {
-    // Joystick deadband
     public static final double DEADBAND = 0.05;
 
-    // Distance between modules
     public static final double LENGTH = 0;
     public static final double WIDTH = 0;
 
-    // Motor controller IDs
     public static final int FL_MOTOR_A = 0;
     public static final int FL_MOTOR_B = 1;
 

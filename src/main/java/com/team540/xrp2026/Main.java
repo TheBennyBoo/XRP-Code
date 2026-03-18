@@ -1,11 +1,10 @@
-package frc.robot;
+package com.team540.xrp2026;
 
 import edu.wpi.first.wpilibj.RobotBase;
 
 public final class Main {
   private Main() {}
 
-  // Main initialization function
   public static void main(String... args) {
     RobotBase.startRobot(Robot::new);
   }

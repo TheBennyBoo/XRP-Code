@@ -1,4 +1,4 @@
-package frc.robot;
+package com.team540.xrp2026;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -6,43 +6,62 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
   private Command autonomousCommand;
-  private RobotContainer robotContainer;
+  private final RobotContainer robotContainer;
 
-  // Called when the robot is started
-  @Override
-  public void robotInit() {
+  public Robot() {
     robotContainer = new RobotContainer();
   }
 
-  // Called periodically while the robot is running
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
   }
 
-  // Called at the start of autonomous mode
+  @Override
+  public void disabledInit() {}
+
+  @Override
+  public void disabledPeriodic() {}
+
+  @Override
+  public void disabledExit() {}
+
   @Override
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
 
     if (autonomousCommand != null) {
-      autonomousCommand.schedule();
+      CommandScheduler.getInstance().schedule(autonomousCommand);
     }
   }
 
-  // Called periodically in autonomous mode
   @Override
   public void autonomousPeriodic() {}
 
-  // Called at the start of teleop mode
   @Override
-  public void teleopInit() {
+  public void autonomousExit() {
     if (autonomousCommand != null) {
-      autonomousCommand.schedule();
+      autonomousCommand.cancel();
     }
   }
 
-  // Called periodically in teleop mode
+  @Override
+  public void teleopInit() {}
+
   @Override
   public void teleopPeriodic() {}
+
+  @Override
+  public void teleopExit() {}
+
+  @Override
+  public void testInit() {
+    CommandScheduler.getInstance().cancelAll();
+  }
+
+  @Override
+  public void testPeriodic() {}
+
+  @Override
+  public void testExit() {}
 }
