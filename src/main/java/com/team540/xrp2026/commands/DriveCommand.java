@@ -21,6 +21,11 @@ public class DriveCommand extends Command {
 
   @Override
   public void execute() {
-    drive.drive(xSupplier.getAsDouble(), ySupplier.getAsDouble(), rotationSupplier.getAsDouble());
+    drive.drive(xSupplier.getAsDouble(), ySupplier.getAsDouble(), rotationSupplier.getAsDouble(), true);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    drive.stop();
   }
 }
