@@ -1,10 +1,10 @@
-package com.team540.xrp2026.subsystems;
+package frc.robot.subsystems;
 
-import com.team540.xrp2026.Constants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.xrp.XRPMotor;
+import frc.robot.Constants;
 
 public class SwerveModule {
   private final MotorController motorA;
@@ -16,7 +16,7 @@ public class SwerveModule {
   }
 
   public void setDesiredState(SwerveModuleState state) {
-    double drive = state.speedMetersPerSecond / Constants.Drive.MAX_SPEED_METERS_PER_SECOND;
+    double drive = state.speedMetersPerSecond / Constants.DriveConstants.MAX_SPEED_METERS_PER_SECOND;
     drive = MathUtil.clamp(drive, -1.0, 1.0);
     double steer = state.angle.getRadians();
     steer = MathUtil.inputModulus(steer, -Math.PI, Math.PI) / Math.PI;

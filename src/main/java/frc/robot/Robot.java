@@ -1,4 +1,4 @@
-package com.team540.xrp2026;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -41,15 +41,14 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousExit() {
     if (autonomousCommand != null) {
-      autonomousCommand.cancel();
+      CommandScheduler.getInstance().cancel(autonomousCommand);
     }
   }
 
   @Override
   public void teleopInit() {
     if (autonomousCommand != null) {
-      autonomousCommand.cancel();
-      autonomousCommand = null;
+      CommandScheduler.getInstance().cancel(autonomousCommand);
     }
   }
 

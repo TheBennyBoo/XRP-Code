@@ -1,4 +1,4 @@
-package com.team540.xrp2026.subsystems;
+package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.xrp.XRPGyro;
@@ -9,7 +9,7 @@ public class GyroSubsystem extends SubsystemBase {
 
   public GyroSubsystem() {}
 
-  public void zeroYaw() {
+  public void zero() {
     gyro.reset();
   }
 
